@@ -12,7 +12,7 @@ def home():
 
 @app.route('/crear-tarea', methods=['POST'])
 def crear():
-    tarea = Tarea(contenido=request.form['contenido_tarea'], hecha=False) # id no es necesario asignarlo (primary key)
+    tarea = Tarea(contenido=request.form['contenido_tarea'], categoria=request.form['categoria_tarea'], hecha=False) # id no es necesario asignarlo (primary key)
     db.session.add(tarea) # Añadir el objeto de Tarea a la base de datos
     db.session.commit() # Ejecutar la operación pendiente de la base de datos
     return  redirect(url_for('home'))

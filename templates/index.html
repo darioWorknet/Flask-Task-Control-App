@@ -31,17 +31,20 @@
                                 <input type="text" name="categoria_tarea" placeholder="Categoria" class="form-control" autofocus>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block"> <!-- btn-block hace que el boton ocupe todo el ancho -->
-                            Guardar
+                                Guardar
                             </button>
                         </form>
                     </div>
                     <div class="card-body">
                         <!-- Las etiquetas <ul> y <li> sirven para crear listas en HTML -->
-                        <ul>
+                        <ul class="p-0"> <!-- Eliminamos el padding -->
                             <!-- Gracias a Jinja se puede introducir codigo Python en nuestro HTML y Python se encarga de ejecutarlo e interpretarlo -->
                             {% for tarea in lista_de_tareas %}
                             <li class="list-group-item">
+                                <span class="btn-group-vertical">
                                 <span class="{% if tarea.hecha %} tarea-hecha {% endif %}">{{tarea.contenido}}</span>
+                                <span class="{% if tarea.hecha %} tarea-hecha {% endif %}">{{tarea.categoria}}</span>
+                                </span>
                                 <a href="/tarea-hecha/{{tarea.id}}" style="padding-left: 20px; text-decoration:none">
                                     <button type="button" class="btn btn-success m-1 p-1" >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" fill="white" class="bi bi-check2-square" viewBox="0 0 16 16" >
