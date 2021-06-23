@@ -13,3 +13,8 @@ body {
     text-decoration: line-through;
     color: #cfcfcf;
 }
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
