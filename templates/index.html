@@ -29,7 +29,7 @@
                             <div class="form-group">
                                 <input type="text" name="contenido_tarea" placeholder="Tarea" class="form-control" autofocus>
                                 <input type="text" name="categoria_tarea" placeholder="Categoria" class="form-control" autofocus>
-                                <input type="datetime" name="fecha_limite_tarea" placeholder="Fecha limite:  dd/mm/yy" class="form-control" autofocus>
+                                <input type="datetime" name="fecha_limite_tarea" placeholder="Fecha limite:  dd/mm/yyyy" class="form-control" autofocus>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">
                                 Guardar
@@ -39,57 +39,56 @@
                     <!-- Lista de tareas -->
                     <div class="card-body">
                         <ul class="p-0">
+                            <!-- TAREA -->
                             {% for tarea in lista_de_tareas %}
-                            {% if not tarea.editable %}
+                            {% if not tarea.editable %}  <!-- Muestra la informacion de la tarea --> 
                             <li class="list-group-item grid-2">
                                 <div class="btn-group-vertical">
                                     <span class="{% if tarea.hecha %} tarea-hecha {% endif %}" style="font-size: 120%">{{tarea.contenido}}</span>
                                     <span class="{% if tarea.hecha %} tarea-hecha {% endif %}" style="color:grey; font-size: 90%">{{tarea.categoria}}</span>
                                     <span class="{% if tarea.hecha %} tarea-hecha {% endif %}" style="color:grey; font-size: 90%">{{tarea.parsed_datetime()}}</span>
                                 </div>
-                            {% else %}
+                            {% else %}  <!-- Muestra la version editable de la tarea -->
                             <li class="list-group-item grid-2">
                                 <form action="/commit-tarea/{{tarea.id}}" method="post" id="update-form">
                                     <div class="form-group">
-                                        <input type="text" name="contenido_tarea" placeholder="Tarea" class="form-control" value="{{tarea.contenido}}" autofocus>
-                                        <input type="text" name="categoria_tarea" placeholder="Categoria" class="form-control" value="{{tarea.categoria}}" autofocus>
-                                        <input type="datetime" name="fecha_limite_tarea" placeholder="Fecha limite:  dd/mm/yy" value="{{tarea.parsed_datetime()}}" class="form-control" autofocus>
+                                        <input type="text" name="contenido_tarea" placeholder="Tarea" class="form-control" value="{{tarea.contenido}}" style="max-height: 30px" autofocus>
+                                        <input type="text" name="categoria_tarea" placeholder="Categoria" class="form-control" value="{{tarea.categoria}}" style="max-height: 30px" autofocus>
+                                        <input type="datetime" name="fecha_limite_tarea" placeholder="Fecha limite:  dd/mm/yyyy" class="form-control" value="{{tarea.parsed_datetime()}}" style="max-height: 30px" autofocus>
                                     </div>
                                 </form>                            
                             {% endif %}
-                                    <!-- Eliminar tarea -->
+                                <!-- ACCIONES -->
                                 <div>
-                                    <a href="/eliminar-tarea/{{tarea.id}}" style="text-decoration:none" class="float-right">
-                                        <button type="button" class="btn btn-danger m-1 p-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" fill="#f8f8ff" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <a href="/eliminar-tarea/{{tarea.id}}" style="text-decoration:none" class="float-right"> <!-- Boton eliminar tarea -->
+                                        <button type="button" class="btn btn-danger m-1 p-1" title="Eliminar">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" fill="#f8f8ff" class="bi bi-trash" viewBox="0 0 16 16">
                                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                                             </svg>
                                         </button>
                                     </a>
-                                    <!-- Editar tarea -->
-                                    {% if tarea.editable %}  <!-- Mostrar boton guardar cambios -->
-                                        <button type="submit" form="update-form" class="btn btn-info float-right m-1 p-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" fill="currentColor" class="bi bi-server" viewBox="0 0 16 16">
+                                    {% if tarea.editable %}
+                                        <button type="submit" form="update-form" class="btn btn-info float-right m-1 p-1" title="Guardar cambios"> <!-- Boton guardar cambios -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" fill="currentColor" class="bi bi-server" viewBox="0 0 16 16">
                                                 <path d="M1.333 2.667C1.333 1.194 4.318 0 8 0s6.667 1.194 6.667 2.667V4c0 1.473-2.985 2.667-6.667 2.667S1.333 5.473 1.333 4V2.667z"/>
                                                 <path d="M1.333 6.334v3C1.333 10.805 4.318 12 8 12s6.667-1.194 6.667-2.667V6.334a6.51 6.51 0 0 1-1.458.79C11.81 7.684 9.967 8 8 8c-1.966 0-3.809-.317-5.208-.876a6.508 6.508 0 0 1-1.458-.79z"/>
                                                 <path d="M14.667 11.668a6.51 6.51 0 0 1-1.458.789c-1.4.56-3.242.876-5.21.876-1.966 0-3.809-.316-5.208-.876a6.51 6.51 0 0 1-1.458-.79v1.666C1.333 14.806 4.318 16 8 16s6.667-1.194 6.667-2.667v-1.665z"/>
                                             </svg>
                                         </button>
-                                    {% else %}  <!-- Mostrar boton edicion -->
-                                    <a href="/editar-tarea/{{tarea.id}}" style="text-decoration:none" class="float-right">
-                                        <button type="button" class="btn btn-warning m-1 p-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" fill="currentColor" class="bi bi-vector-pen" viewBox="0 0 16 16">
+                                    {% else %}
+                                    <a href="/editar-tarea/{{tarea.id}}" style="text-decoration:none" class="float-right"> <!-- Boton edicion -->
+                                        <button type="button" class="btn btn-warning m-1 p-1" title="Editar">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" fill="currentColor" class="bi bi-vector-pen" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd" d="M10.646.646a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1 0 .708l-1.902 1.902-.829 3.313a1.5 1.5 0 0 1-1.024 1.073L1.254 14.746 4.358 4.4A1.5 1.5 0 0 1 5.43 3.377l3.313-.828L10.646.646zm-1.8 2.908-3.173.793a.5.5 0 0 0-.358.342l-2.57 8.565 8.567-2.57a.5.5 0 0 0 .34-.357l.794-3.174-3.6-3.6z"/>
                                                 <path fill-rule="evenodd" d="M2.832 13.228 8 9a1 1 0 1 0-1-1l-4.228 5.168-.026.086.086-.026z"/>
                                             </svg>
                                         </button>
                                     </a>
                                     {% endif %}
-                                    <!-- Tarea hecha -->
-                                    <a href="/tarea-hecha/{{tarea.id}}" style="text-decoration:none" class="float-right">
-                                        <button type="button" class="btn btn-success m-1 p-1" >
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" fill="white" class="bi bi-check2-square" viewBox="0 0 16 16" >
+                                    <a href="/tarea-hecha/{{tarea.id}}" style="text-decoration:none" class="float-right"> <!-- Boton marcar tarea hecha -->
+                                        <button type="button" class="btn btn-success m-1 p-1" title="Marcar como hecha">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" fill="white" class="bi bi-check2-square" viewBox="0 0 16 16" >
                                                 <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"/>
                                                 <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
                                             </svg>
